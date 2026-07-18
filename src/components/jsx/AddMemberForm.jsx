@@ -8,8 +8,9 @@ function AddMemberForm({ boardId }) {
     e.preventDefault();
 
     try {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'; 
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8080/api/boards/${boardId}/members`, {
+      const response = await fetch(`${API_URL}/api/boards/${boardId}/members`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

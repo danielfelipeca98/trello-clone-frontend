@@ -9,7 +9,7 @@ import NewTask from './components/jsx/NewTask.jsx';
 import './components/css/Calendario.css'; 
 
 
-const socket = io('http://localhost:8080', {
+const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:8080', {
   withCredentials: true,
   transports: ['websocket']
 });
@@ -25,7 +25,8 @@ function App() {
   useEffect(() => {
     const checkAuthAndFetchTasks = async () => {
       try {
-        const authResponse = await fetch('http://localhost:8080/api/auth/profile', {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+        const authResponse = await fetch(`${API_URL}/api/auth/profile`, {
           credentials: 'include'
         });
 
@@ -41,8 +42,7 @@ function App() {
           setIsLoading(false);
           return;
         }
-
-        const response = await fetch(`http://localhost:8080/api/tasks/list/${listId}`, {
+        const response = await fetch(`${API_URL}/api/tasks/list/${listId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'

@@ -13,8 +13,9 @@ function Calendario() {
   useEffect(() => {
     const fetchTareas = async () => {
       try {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:8080/api/tasks/list/${listId}`, {
+        const response = await fetch(`${API_URL}/api/tasks/list/${listId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           },

@@ -26,8 +26,9 @@ function EditTask() {
   useEffect(() => {
     const fetchTask = async () => {
       try {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:8080/api/tasks/${taskId}`, {
+        const res = await fetch(`${API_URL}/api/tasks/${taskId}`, {
           headers: { 'Authorization': `Bearer ${token}` },
           credentials: 'include'
         });
@@ -55,12 +56,13 @@ function EditTask() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:8080/api/auth/users', {
+        const res = await fetch(`${API_URL}/api/auth/users`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
-          const data = await res.json();
+          const data = await res.json(); 
           setUsers(data.users || []);
         }
       } catch (err) {
@@ -74,8 +76,9 @@ function EditTask() {
   useEffect(() => {
     const fetchComments = async () => {
       try {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:8080/api/comments/task/${taskId}`, {
+        const res = await fetch(`${API_URL}/api/comments/task/${taskId}`, {
           headers: { 'Authorization': `Bearer ${token}` },
           credentials: 'include'
         });
@@ -96,8 +99,9 @@ function EditTask() {
     if (!newComment.trim()) return;
 
     try {
+       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:8080/api/comments', {
+      const res = await fetch(`${API_URL}/api/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,8 +132,9 @@ function EditTask() {
     if (!confirm('¿Eliminar este comentario?')) return;
 
     try {
+       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:8080/api/comments/${commentId}`, {
+      const res = await fetch(`${API_URL}/api/comments/${commentId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` },
         credentials: 'include'
@@ -161,8 +166,9 @@ function EditTask() {
     }
 
     try {
+          const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:8080/api/tasks/${taskId}`, {
+      const res = await fetch(`${API_URL}/api/tasks/${taskId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

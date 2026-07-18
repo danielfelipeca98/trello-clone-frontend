@@ -20,8 +20,9 @@ function NewTask() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
+                const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:8080/api/auth/users', {
+                const response = await fetch(`${API_URL}/api/auth/users`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.ok) {
