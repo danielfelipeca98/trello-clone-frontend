@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import '../../css/Register.css';
+import '../css/Register.css';
 
 const Register = () => {
     const [name, setName] = useState('');
