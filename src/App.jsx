@@ -48,7 +48,8 @@ function App() {
         const response = await fetch(`${API_URL}/api/tasks/list/${listId}`, {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`  
           },
           credentials: 'include'
         });
