@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 
 function EditTask() {
-  const navigate = useNavigate();
   const searchParams = new URLSearchParams(window.location.search);
   const taskId = searchParams.get('taskId');
 
@@ -12,7 +10,7 @@ function EditTask() {
   const [users, setUsers] = useState([]);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
-  
+
   // Estados para los campos de la tarea
   const [task, setTask] = useState({
     title: '',
@@ -32,9 +30,9 @@ function EditTask() {
           headers: { 'Authorization': `Bearer ${token}` },
           credentials: 'include'
         });
-        
+
         if (!res.ok) throw new Error('Error al cargar');
-        
+
         const data = await res.json();
         setTask({
           title: data.title || '',
@@ -62,7 +60,7 @@ function EditTask() {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
-          const data = await res.json(); 
+          const data = await res.json();
           setUsers(data.users || []);
         }
       } catch (err) {
@@ -99,7 +97,7 @@ function EditTask() {
     if (!newComment.trim()) return;
 
     try {
-       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
       const token = localStorage.getItem('token');
       const res = await fetch(`${API_URL}/api/comments`, {
         method: 'POST',
@@ -132,7 +130,7 @@ function EditTask() {
     if (!confirm('¿Eliminar este comentario?')) return;
 
     try {
-       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
       const token = localStorage.getItem('token');
       const res = await fetch(`${API_URL}/api/comments/${commentId}`, {
         method: 'DELETE',
@@ -166,7 +164,7 @@ function EditTask() {
     }
 
     try {
-          const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
       const token = localStorage.getItem('token');
       const res = await fetch(`${API_URL}/api/tasks/${taskId}`, {
         method: 'PUT',
@@ -185,7 +183,7 @@ function EditTask() {
       });
 
       if (res.ok) {
-        navigate('/');
+        window.location.href = '/';
       } else {
         const data = await res.json();
         alert(data.error || 'Error al actualizar');
@@ -210,7 +208,7 @@ function EditTask() {
         <Header listId="" />
         <div className="app">
           <h1>Error: {error}</h1>
-          <button onClick={() => navigate('/')}>Volver</button>
+          <button onClick={() => window.location.href = '/'}>Volver</button>
         </div>
       </>
     );
@@ -220,7 +218,7 @@ function EditTask() {
     <>
       <Header listId="" />
       <div className="app">
-        <h1>✏️ Editar Tarea</h1>
+        <h1>Editar Tarea</h1>
 
         <form onSubmit={handleSubmit} className="edit-task-form">
           <div className="form-group">
@@ -286,7 +284,7 @@ function EditTask() {
 
           <div className="form-actions">
             <button type="submit">Guardar Cambios</button>
-            <button type="button" onClick={() => navigate('/')}>Cancelar</button>
+            <button onClick={() => window.location.href = '/'}>Cancelar</button>
           </div>
         </form>
 

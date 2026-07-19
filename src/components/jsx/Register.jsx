@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -9,24 +8,23 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);///////////
-    const navigate = useNavigate();
 
-    useEffect(()=>{
-        const checkAuth = async()=>{
-            try{
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
                 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-                const response = await fetch(`${API_URL}/api/auth/profile`,{
-                    credentials:'include'
+                const response = await fetch(`${API_URL}/api/auth/profile`, {
+                    credentials: 'include'
                 })
-                if(response.ok){
-                    navigate('/');
+                if (response.ok) {
+                    window.location.href = '/';
                 }
-            }catch(error){
-                console.log('Error al verificar uatenticacion',error)
+            } catch (error) {
+                console.log('Error al verificar uatenticacion', error)
             }
         }
         checkAuth();
-    },[navigate])
+    }, [])
 
     const registerSubmit = async (e) => {
         e.preventDefault();
@@ -42,18 +40,18 @@ const Register = () => {
             return;
         }
         try {
-                const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-                const response = await fetch(`${API_URL}/api/auth/register`, {
+            const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+            const response = await fetch(`${API_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify({ name, email, password}),
+                body: JSON.stringify({ name, email, password }),
             });
 
             if (response.ok) {
-                navigate('/login');
+                window.location.href = '/login';
             } else {
                 const data = await response.json();
                 setError(data.message || 'Error al realizar el registro');

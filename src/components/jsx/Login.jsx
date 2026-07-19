@@ -34,7 +34,7 @@ const Login = () => {
           email: data.email,
           name: data.name
         }));
-        navigate('/');
+        window.location.href = '/';
       } else {
         const data = await response.json();
         setError(data.message || 'Error al realizar el registro');
