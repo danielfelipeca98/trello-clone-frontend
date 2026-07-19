@@ -6,7 +6,7 @@ import Login from './components/jsx/Login.jsx';
 import Register from './components/jsx/Register.jsx';
 import Header from './components/jsx/Header.jsx';
 import NewTask from './components/jsx/NewTask.jsx';
-import './components/css/Calendario.css'; 
+import './components/css/Calendario.css';
 
 
 const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:8080', {
@@ -31,12 +31,14 @@ function App() {
         });
 
         if (!authResponse.ok) {
+          console.log('Auth falló:', authResponse.status);
           if (window.location.pathname !== '/login') {
-            window.location.href = '/login';
+            navigate('/login');
           }
           return;
         }
 
+        console.log('Autenticación exitosa');
         if (!listId) {
           console.log('No hay listId, no se cargan tareas');
           setIsLoading(false);
@@ -91,52 +93,52 @@ function App() {
     };
   }, []);
 
-  
+
 
   const handleDeleteTask = (taskId) => {
     socket.emit('delete-task', taskId);
   };
 
   if (isLoading) {
+    return (
+      <>
+        <Header listId={listId} />
+        <div className="calendario-container">
+          <h1>Cargando...</h1>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <Header listId={listId} />
-      <div className="calendario-container">
-        <h1>Cargando...</h1>
+      <div className="app">
+        <h1>Lista de Tareas</h1>
+
+        <ul className="task-list">
+          {tasks.length === 0 ? (
+            <li className="empty-message">No hay tareas en esta lista</li>
+          ) : (
+            tasks.map((task) => (
+              <li key={task._id}>
+                <div className="task-content">
+                  <h3>{task.title}</h3>
+                  {task.description && <p>{task.description}</p>}
+                  <div className="task-meta">
+                    <span className={`task-status ${task.status}`}>{task.status}</span>
+                    <span className="task-date"> Fecha limite {new Date(task.createdAt).toLocaleDateString()}</span>
+                  </div>
+                </div>
+                <button onClick={() => handleDeleteTask(task._id)}>Eliminar</button>
+                <button onClick={() => navigate(`/edit-task?taskId=${task._id}`)}>Editar</button>
+              </li>
+            ))
+          )}
+        </ul>
       </div>
     </>
-  );
-}
 
-  return (
-    <>
-    <Header listId={listId} />
-    <div className="app">
-      <h1>Lista de Tareas</h1>
-
-      <ul className="task-list"> 
-  {tasks.length === 0 ? (
-    <li className="empty-message">No hay tareas en esta lista</li>
-  ) : (
-    tasks.map((task) => (
-      <li key={task._id}>
-        <div className="task-content">
-          <h3>{task.title}</h3>
-          {task.description && <p>{task.description}</p>}
-          <div className="task-meta">
-            <span className={`task-status ${task.status}`}>{task.status}</span>
-            <span className="task-date"> Fecha limite {new Date(task.createdAt).toLocaleDateString()}</span>
-          </div>
-        </div>
-        <button onClick={() => handleDeleteTask(task._id)}>Eliminar</button>
-        <button onClick={() => navigate(`/edit-task?taskId=${task._id}`)}>Editar</button>
-      </li>
-    ))
-  )}
-</ul>
-    </div>
-    </>
-          
   );
 }
 
