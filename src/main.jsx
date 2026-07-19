@@ -1,8 +1,11 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './index.css'
 import App from './App.jsx'
+import './index.css'
+
 import Login from './components/jsx/Login.jsx'
 import Register from './components/jsx/Register.jsx'
 import NewTask from './components/jsx/NewTask.jsx';
@@ -10,7 +13,7 @@ import EditTask from './components/jsx/EditTask.jsx';
 import Calendario from './components/jsx/Calendario.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -22,5 +25,5 @@ createRoot(document.getElementById('root')).render(
         
       </Routes>
     </BrowserRouter>
-  </StrictMode>
+  </React.StrictMode>
 )

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import io from 'socket.io-client';
 
 import Login from './components/jsx/Login.jsx';
@@ -19,22 +18,23 @@ function App() {
   const [listId, setListId] = useState('6a56a66b839585c7f69873a5');
   const [isLoading, setIsLoading] = useState(true);
   const [boardId, setBoardId] = useState('');
-  const navigate = useNavigate();
 
 
   useEffect(() => {
     const checkAuthAndFetchTasks = async () => {
       try {
         const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+        const token = localStorage.getItem('token');
         const authResponse = await fetch(`${API_URL}/api/auth/profile`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
           credentials: 'include'
         });
 
         if (!authResponse.ok) {
           console.log('Auth falló:', authResponse.status);
-          if (window.location.pathname !== '/login') {
-            navigate('/login');
-          }
+          window.location.href = '/login';
           return;
         }
 
@@ -131,8 +131,7 @@ function App() {
                   </div>
                 </div>
                 <button onClick={() => handleDeleteTask(task._id)}>Eliminar</button>
-                <button onClick={() => navigate(`/edit-task?taskId=${task._id}`)}>Editar</button>
-              </li>
+                <button onClick={() => window.location.href = `/edit-task?taskId=${task._id}`}>Editar</button>              </li>
             ))
           )}
         </ul>
