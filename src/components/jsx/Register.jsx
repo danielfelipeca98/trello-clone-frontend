@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from "react";
+import '../../css/Register.css';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -64,68 +65,72 @@ const Register = () => {
         }
     }
     return (
-        <div >
-            <h1>Registro de usuarios</h1>
+        <div className="register-container">
+            <div className="register-card">
+                <h1>Registro de usuarios</h1>
 
-            <form onSubmit={registerSubmit}>
-                <div >
-                    <label htmlFor="nombre">Nombre:</label>
-                    <input
-                        id="nombre"
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                        placeholder="Nombre Completo"
-                        disabled={loading}
-                    />
-                </div>
-                <div >
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        placeholder="tu@email.com"
-                        disabled={loading}
-                    />
-                </div>
+                {error && <div className="error-message">{error}</div>}
 
-                <div>
-                    <label htmlFor="password">Contraseña:</label>
-                    <input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        placeholder="••••••••"
-                        disabled={loading}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="confirmPassword">Confirmar contraseña:</label>
-                    <input
-                        id="confirmPassword"
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                        placeholder="••••••••"
-                        disabled={loading}
-                    />
-                </div>
+                <form onSubmit={registerSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="nombre">Nombre:</label>
+                        <input
+                            id="nombre"
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            placeholder="Nombre Completo"
+                            disabled={loading}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Email:</label>
+                        <input
+                            id="email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            placeholder="tu@email.com"
+                            disabled={loading}
+                        />
+                    </div>
 
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Registrando usuario...' : 'Usuario registrado'}
-                </button>
-            </form>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <p>
-                ¿ya tienes cuenta? <a href="/login">Login</a>
-            </p>
+                    <div className="form-group">
+                        <label htmlFor="password">Contraseña:</label>
+                        <input
+                            id="password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            placeholder="••••••••"
+                            disabled={loading}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="confirmPassword">Confirmar contraseña:</label>
+                        <input
+                            id="confirmPassword"
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                            placeholder="••••••••"
+                            disabled={loading}
+                        />
+                    </div>
+
+                    <button type="submit" className="btn-submit" disabled={loading}>
+                        {loading ? 'Registrando usuario...' : 'Usuario registrado'}
+                    </button>
+                </form>
+
+                <div className="login-link">
+                    ¿Ya tienes cuenta? <a href="/login">Login</a>
+                </div>
+            </div>
         </div>
     );
 };
